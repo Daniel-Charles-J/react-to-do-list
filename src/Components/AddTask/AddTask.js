@@ -1,4 +1,5 @@
-import React,{ useState } from 'react';
+import React,{ useState} from 'react';
+import {useRef} from "react";
 import { BsPlusLg } from 'react-icons/bs';
 import './AddTask.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -9,17 +10,20 @@ const AddTask = (props) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [task,Settask] = useState("")
+  let [task,Settask] = useState("");
+  const inputRef = useRef();
 
   const addTask=()=>{
     if(task.trim() === ''){
-      return 
+      alert("Please enter a task") 
   } else {
      props.addTask({
        todoTask:task,
        isCompleted:false
      })
   }
+  console.log(inputRef);
+ inputRef.current.value=""
   }
 
   return (
@@ -31,7 +35,7 @@ const AddTask = (props) => {
         <Modal.Header closeButton>
           <Modal.Title>Add todoTask</Modal.Title>
         </Modal.Header>
-        <Modal.Body><input type='text' placeholder = 'Add Task . . .' value = {task} onChange = {event => Settask(event.target.value)} /></Modal.Body>
+        <Modal.Body><input type='text' placeholder = 'Add Task . . .' value = {task} ref={inputRef} onChange = {event => Settask(event.target.value)} /></Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Cancel
